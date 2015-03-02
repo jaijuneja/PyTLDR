@@ -1,3 +1,8 @@
 .DS_Store
 .idea/
 *.pyc
+build/
+dist/
+pytldr.egg-info/
+*.zip
+*.egg
