@@ -11,7 +11,7 @@ class BaseSummarizer(object):
         self._tokenizer = tokenizer
 
     def summarize(self, text, num_sentences=5):
-        raise NotImplementedError('This method needs to be implemented in a base class')
+        raise NotImplementedError('This method needs to be implemented in a child class')
 
     @classmethod
     def _compute_matrix(cls, sentences, weighting='frequency'):
