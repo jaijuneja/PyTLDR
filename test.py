@@ -1,4 +1,5 @@
-from pytldr.summarizer.lsa import LsaSteinberger
+from pytldr.summarize.lsa import LsaOzsoy, LsaSteinberger
+from pytldr.summarize.relevance import RelevanceSummarizer
 
 if __name__ == "__main__":
     txt = """
@@ -69,8 +70,23 @@ if __name__ == "__main__":
     (Additional reporting by Yann Le Guernigou, Michael Nienaber, Andrew Callus, Jan Strupczewski, Alastair Macdonald, Adrian Croft, Foo Yun Chee, Robin Emmott, Tom Koerkemeier, Julia Fioretti and Francesca Landini; Writing by Jeremy Gaunt, Paul Taylor and Alastair Macdonald; Editing by Paul Taylor, Giles Elgood and Eric Walsh)
     """.decode('utf-8')
 
-    lsa = LsaSteinberger()
-    summary = lsa.summarize(txt, num_sentences=5)
+    lsa_o = LsaOzsoy()
+    lsa_s = LsaSteinberger()
+    relevance = RelevanceSummarizer()
+
+    summary = lsa_o.summarize(txt, length=5)
+
+    for sentence in summary:
+        print sentence
+
+    print '\n\n'
+    summary = lsa_s.summarize(txt, length=5)
+
+    for sentence in summary:
+        print sentence
+
+    print '\n\n'
+    summary = relevance.summarize(txt, length=5)
 
     for sentence in summary:
         print sentence
