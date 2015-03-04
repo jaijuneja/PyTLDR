@@ -39,7 +39,7 @@ setup(
     packages=[
         'pytldr',
         'pytldr.nlp',
-        'pytldr.summarizer'
+        'pytldr.summarize'
     ],
     long_description=long_description,
     classifiers=[
