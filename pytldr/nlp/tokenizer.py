@@ -8,15 +8,23 @@ from string import punctuation
 class Tokenizer(object):
 
     def __init__(self, language='english'):
-        self.stopwords = self._load_stopwords(language)
-        self.stemmer = SnowballStemmer(language)
+        self._stopwords = self._load_stopwords(language)
+        self._stemmer = SnowballStemmer(language)
+
+    @property
+    def stopwords(self):
+        return self._stopwords
+
+    @property
+    def stemmer(self):
+        return self._stemmer
 
     @staticmethod
     def _load_stopwords(language):
         # Load stop-words
         stopwords_dir = 'stopwords/{}.txt'.format(language.lower())
         application_root = os.path.dirname(__file__)
-        stopwords_dir = os.path.join(application_root, stopwords_dir)
+        stopwords_dir = os.path.join(application_root, '..', stopwords_dir)
 
         try:
             with open(stopwords_dir, 'rb') as stopwords_file:
@@ -29,14 +37,14 @@ class Tokenizer(object):
     def remove_stopwords(self, tokens):
         """Remove all stopwords from a list of word tokens or a string of text."""
         if isinstance(tokens, (list, tuple)):
-            return [word for word in tokens if word not in self.stopwords]
+            return [word for word in tokens if word not in self._stopwords]
         else:
             return ' '.join(
-                [word for word in tokens.split(' ') if word not in self.stopwords]
+                [word for word in tokens.split(' ') if word not in self._stopwords]
             )
 
     def stem(self, word):
-        return self.stemmer.stem(word)
+        return self._stemmer.stem(word)
 
     def stem_tokens(self, tokens):
         """Perform snowball (Porter2) stemming on a list of word tokens."""

@@ -1,5 +1,6 @@
 from pytldr.summarize.lsa import LsaOzsoy, LsaSteinberger
 from pytldr.summarize.relevance import RelevanceSummarizer
+from pytldr.summarize.textrank import TextRankSummarizer
 
 if __name__ == "__main__":
     txt = """
@@ -73,20 +74,28 @@ if __name__ == "__main__":
     lsa_o = LsaOzsoy()
     lsa_s = LsaSteinberger()
     relevance = RelevanceSummarizer()
+    textrank = TextRankSummarizer()
 
+    print '\n\nLSA Ozsoy:\n'
     summary = lsa_o.summarize(txt, length=5)
 
     for sentence in summary:
         print sentence
 
-    print '\n\n'
+    print '\n\nLSA Steinberger:\n'
     summary = lsa_s.summarize(txt, length=5)
 
     for sentence in summary:
         print sentence
 
-    print '\n\n'
+    print '\n\nRelevance:\n'
     summary = relevance.summarize(txt, length=5)
+
+    for sentence in summary:
+        print sentence
+
+    print '\n\nTextRank:\n'
+    summary = textrank.summarize(txt, length=5)
 
     for sentence in summary:
         print sentence

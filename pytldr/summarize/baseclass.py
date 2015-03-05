@@ -2,6 +2,7 @@
 import unicodedata
 from goose import Goose
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+from sklearn.preprocessing import normalize
 from ..nlp.tokenizer import Tokenizer
 
 
@@ -14,10 +15,13 @@ class BaseSummarizer(object):
         raise NotImplementedError('This method needs to be implemented in a child class')
 
     @classmethod
-    def _compute_matrix(cls, sentences, weighting='frequency'):
+    def _compute_matrix(cls, sentences, weighting='frequency', norm=None):
         """
         Compute the matrix of term frequencies given a list of sentences
         """
+
+        if norm not in ('l1', 'l2', None):
+            raise ValueError('Parameter "norm" can only take values "l1", "l2" or None')
 
         # Initialise vectorizer to convert text documents into matrix of token counts
         if weighting.lower() == 'binary':
@@ -30,8 +34,15 @@ class BaseSummarizer(object):
             raise ValueError('Parameter "method" must take one of the values "binary", "frequency" or "tfidf".')
 
         # Extract word features from sentences using sparse vectorizer
-        frequency_matrix = vectorizer.fit_transform(sentences).transpose()
-        return frequency_matrix.astype(float)
+        frequency_matrix = vectorizer.fit_transform(sentences).astype(float)
+
+        # Normalize the term vectors (i.e. each row adds to 1)
+        if norm in ('l1', 'l2'):
+            frequency_matrix = normalize(frequency_matrix, norm=norm, axis=1)
+        elif norm is not None:
+            raise ValueError('Parameter "norm" can only take values "l1", "l2" or None')
+
+        return frequency_matrix
 
     @classmethod
     def _parse_input(cls, text):

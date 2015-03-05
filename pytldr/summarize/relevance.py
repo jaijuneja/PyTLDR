@@ -36,7 +36,6 @@ class RelevanceSummarizer(BaseSummarizer):
             return unprocessed_sentences
 
         matrix = self._compute_matrix(sentences, weighting='frequency')
-        matrix = matrix.transpose()
 
         # Sum occurrences of terms over all sentences to obtain document frequency
         doc_frequency = matrix.sum(axis=0)

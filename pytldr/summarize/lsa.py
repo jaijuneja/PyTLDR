@@ -52,6 +52,7 @@ class LsaSteinberger(BaseLsaSummarizer):
 
         weighting = 'binary' if binary_matrix else 'frequency'
         matrix = self._compute_matrix(sentences, weighting=weighting)
+        matrix = matrix.transpose()
 
         # Filter out negatives in the sparse matrix (need to do this on Vt for LSA method):
         matrix = matrix.multiply(matrix > 0)
@@ -109,6 +110,7 @@ class LsaOzsoy(BaseLsaSummarizer):
 
         weighting = 'binary' if binary_matrix else 'frequency'
         matrix = self._compute_matrix(sentences, weighting=weighting)
+        matrix = matrix.transpose()
 
         # Filter out negatives in the sparse matrix (need to do this on Vt for LSA method):
         matrix = matrix.multiply(matrix > 0)

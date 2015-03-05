@@ -58,7 +58,8 @@ setup(
         'nltk>=3.0.0',
         'scipy>=0.13.2',
         'scikit-learn>=0.15.2',
-        'goose-extractor>=1.0.25'
+        'goose-extractor>=1.0.25',
+        'networkx>=1.9.1'
     ],
     tests_require=[
         'nose'
