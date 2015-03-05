@@ -61,11 +61,12 @@ setup(
         'goose-extractor>=1.0.25',
         'networkx>=1.9.1'
     ],
-    tests_require=[
-        'nose'
-    ],
     include_package_data=True,
     package_data={PACKAGE_NAME: ['stopwords/*.txt'],
                   '': ['README.md', 'ez_setup.py']},
+    tests_require=[
+        'nose',
+        'coverage',
+    ],
     test_suite='nose.collector'
 )
