@@ -8,7 +8,7 @@ before_install:
   - sudo apt-get install -qq gfortran libatlas-base-dev
   - sudo apt-get install -qq python-numpy
 install:
-  - travis_wait pip install .
+  - pip install .
   - travis_wait pip install -r requirements.txt
-#script:
-#  - nosetests tests
+script:
+  - "python test.py"
