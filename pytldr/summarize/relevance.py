@@ -13,6 +13,9 @@ class RelevanceSummarizer(BaseSummarizer):
         Proceedings of the 24th International Conference on Research in Information Retrieval (SIGIR ’01),
         pp. 19–25, 2001.
 
+        This method computes and ranks the cosine similarity between each sentence vector and the overall
+        document.
+
         :param text: a string of text to be summarized, path to a text file, or URL starting with http
         :param length: the length of the output summary; either a number of sentences (5) or a percentage
         of the original document (e.g. 0.5)
