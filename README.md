@@ -99,7 +99,7 @@ summary = summarizer.summarize("/path/to/file.txt", length=0.25)
 # Above summary is a quarter of the length of the original text
 
 # 3. A URL (must start with http://):
-summary = summarizer.summarize("http://newsite.com/some_article", length=0.25)
+summary = summarizer.summarize("http://newsite.com/some_article")
 ```
 
 ### Latent Semantic Analysis (LSA) Summarization
