@@ -14,12 +14,8 @@ class TextRankSummarizer(BaseSummarizer):
 
         sentences, unprocessed_sentences = self._tokenizer.tokenize_sentences(text)
 
-        num_sentences = len(sentences)
-        if 0 < length < 1:
-            # length is a percentage - convert to number of sentences
-            length = round(length * num_sentences)
-
-        if length >= num_sentences:
+        length = self._parse_summary_length(length, len(sentences))
+        if length == len(sentences):
             return unprocessed_sentences
 
         # Compute the word frequency matrix. If norm is set to 'l1' or 'l2' then words are normalized

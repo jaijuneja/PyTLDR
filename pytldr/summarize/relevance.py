@@ -28,11 +28,8 @@ class RelevanceSummarizer(BaseSummarizer):
 
         sentences, unprocessed_sentences = self._tokenizer.tokenize_sentences(text)
 
-        if 0 < length < 1:
-            # length is a percentage - convert to number of sentences
-            length = round(length * len(sentences))
-
-        if length >= len(sentences):
+        length = self._parse_summary_length(length, len(sentences))
+        if length == len(sentences):
             return unprocessed_sentences
 
         matrix = self._compute_matrix(sentences, weighting='frequency')

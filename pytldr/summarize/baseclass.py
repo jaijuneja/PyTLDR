@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
-import unicodedata
 from goose import Goose
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.preprocessing import normalize
+from ..nlp.preprocess import unicode_to_ascii
 from ..nlp.tokenizer import Tokenizer
 
 
@@ -25,11 +25,11 @@ class BaseSummarizer(object):
 
         # Initialise vectorizer to convert text documents into matrix of token counts
         if weighting.lower() == 'binary':
-            vectorizer = CountVectorizer(min_df=1, ngram_range=(1, 1), binary=True)
+            vectorizer = CountVectorizer(min_df=1, ngram_range=(1, 1), binary=True, stop_words=None)
         elif weighting.lower() == 'frequency':
-            vectorizer = CountVectorizer(min_df=1, ngram_range=(1, 1), binary=False)
+            vectorizer = CountVectorizer(min_df=1, ngram_range=(1, 1), binary=False, stop_words=None)
         elif weighting.lower() == 'tfidf':
-            vectorizer = TfidfVectorizer(min_df=1, ngram_range=(1, 1))
+            vectorizer = TfidfVectorizer(min_df=1, ngram_range=(1, 1), stop_words=None)
         else:
             raise ValueError('Parameter "method" must take one of the values "binary", "frequency" or "tfidf".')
 
@@ -51,24 +51,27 @@ class BaseSummarizer(object):
                 # Input is a link - need to extract the text from html
                 urlparse = Goose()
                 article = urlparse.extract(url=text)
-                return cls._unicode_to_ascii(article.cleaned_text)
+                return unicode_to_ascii(article.cleaned_text)
             elif text.endswith('.txt'):
                 # Input is a file - need to read it
                 textfile = open(text, 'rb')
                 article = textfile.read()
                 textfile.close()
-                return cls._unicode_to_ascii(article)
+                return unicode_to_ascii(article)
             else:
                 # Input is a string containing the raw text
-                return cls._unicode_to_ascii(text)
+                return unicode_to_ascii(text)
         else:
             raise ValueError('Input text must be of type str or unicode.')
 
     @classmethod
-    def _unicode_to_ascii(cls, unicodestr):
-        if isinstance(unicodestr, str):
-            return unicodestr
-        elif isinstance(unicodestr, unicode):
-            return unicodedata.normalize('NFKD', unicodestr).encode('ascii', 'ignore')
+    def _parse_summary_length(cls, length, num_sentences):
+        if length < 0 or not isinstance(length, (int, float)):
+            raise ValueError('Parameter "length" must be a positive number')
+        elif 0 < length < 1:
+            # length is a percentage - convert to number of sentences
+            return int(round(length * num_sentences))
+        elif length >= num_sentences:
+            return num_sentences
         else:
-            raise ValueError('Input text must be of type str or unicode.')
+            return int(length)

@@ -2,6 +2,7 @@
 import numpy as np
 from .baseclass import BaseSummarizer
 from scipy.sparse.linalg import svds
+from warnings import warn
 
 
 class BaseLsaSummarizer(BaseSummarizer):
@@ -17,10 +18,35 @@ class BaseLsaSummarizer(BaseSummarizer):
         u, s, v = svds(matrix, k=num_concepts)
         return u, s, v
 
+    @classmethod
+    def _validate_num_topics(cls, topics, sentences):
+        # Determine the number of "linearly independent" sentences
+        # This gives us an estimate for the rank of the matrix for which we will compute SVD
+        sentences_set = {frozenset(sentence.split(' ')) for sentence in sentences}
+        est_matrix_rank = len(sentences_set)
+
+        if est_matrix_rank <= 1:
+            raise SvdRankException('The sentence matrix does not have sufficient rank to compute SVD')
+
+        if topics > est_matrix_rank - 1:
+            warn(
+                'The parameter "topics" must be <= rank(sentence_matrix) - 1 to avoid rank '
+                'deficiency in the SVD computation. The number of topics has been adjusted '
+                'to equal rank(sentence_matrix) - 1 but this could result in a poor summary.',
+                Warning
+            )
+            topics = est_matrix_rank - 1
+
+        return topics
+
+
+class SvdRankException(Exception):
+    pass
+
 
 class LsaSteinberger(BaseLsaSummarizer):
 
-    def summarize(self, text, topics=5, length=5, binary_matrix=True, topic_sigma_threshold=0.5):
+    def summarize(self, text, topics=4, length=5, binary_matrix=True, topic_sigma_threshold=0.5):
         """
         Implements the method of latent semantic analysis described by Steinberger and Jezek in the paper:
 
@@ -43,21 +69,21 @@ class LsaSteinberger(BaseLsaSummarizer):
 
         sentences, unprocessed_sentences = self._tokenizer.tokenize_sentences(text)
 
-        if 0 < length < 1:
-            # length is a percentage - convert to number of sentences
-            length = round(length * len(sentences))
-
-        if length >= len(sentences):
+        length = self._parse_summary_length(length, len(sentences))
+        if length == len(sentences):
             return unprocessed_sentences
 
+        topics = self._validate_num_topics(topics, sentences)
+
+        # Generate a matrix of terms that appear in each sentence
         weighting = 'binary' if binary_matrix else 'frequency'
-        matrix = self._compute_matrix(sentences, weighting=weighting)
-        matrix = matrix.transpose()
+        sentence_matrix = self._compute_matrix(sentences, weighting=weighting)
+        sentence_matrix = sentence_matrix.transpose()
 
         # Filter out negatives in the sparse matrix (need to do this on Vt for LSA method):
-        matrix = matrix.multiply(matrix > 0)
+        sentence_matrix = sentence_matrix.multiply(sentence_matrix > 0)
 
-        s, u, v = self._svd(matrix, num_concepts=topics)
+        s, u, v = self._svd(sentence_matrix, num_concepts=topics)
 
         # Only consider topics/concepts whose singular values are half of the largest singular value
         if 1 <= topic_sigma_threshold < 0:
@@ -78,7 +104,7 @@ class LsaSteinberger(BaseLsaSummarizer):
 
 class LsaOzsoy(BaseLsaSummarizer):
 
-    def summarize(self, text, topics=5, length=5, binary_matrix=True, topic_sigma_threshold=0):
+    def summarize(self, text, topics=4, length=5, binary_matrix=True, topic_sigma_threshold=0):
         """
         Implements the "cross method" of latent semantic analysis described by Ozsoy et al. in the paper:
 
@@ -101,21 +127,20 @@ class LsaOzsoy(BaseLsaSummarizer):
 
         sentences, unprocessed_sentences = self._tokenizer.tokenize_sentences(text)
 
-        if 0 < length < 1:
-            # length is a percentage - convert to number of sentences
-            length = round(length * len(sentences))
-
-        if length >= len(sentences):
+        length = self._parse_summary_length(length, len(sentences))
+        if length == len(sentences):
             return unprocessed_sentences
 
+        topics = self._validate_num_topics(topics, sentences)
+
         weighting = 'binary' if binary_matrix else 'frequency'
-        matrix = self._compute_matrix(sentences, weighting=weighting)
-        matrix = matrix.transpose()
+        sentence_matrix = self._compute_matrix(sentences, weighting=weighting)
+        sentence_matrix = sentence_matrix.transpose()
 
         # Filter out negatives in the sparse matrix (need to do this on Vt for LSA method):
-        matrix = matrix.multiply(matrix > 0)
+        sentence_matrix = sentence_matrix.multiply(sentence_matrix > 0)
 
-        s, u, v = self._svd(matrix, num_concepts=topics)
+        s, u, v = self._svd(sentence_matrix, num_concepts=topics)
 
         # Get the average sentence score for each topic (i.e. each row in matrix v)
         topic_averages = v.mean(axis=1)
