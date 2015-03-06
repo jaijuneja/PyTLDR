@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/jaijuneja/PyTLDR.svg?branch=master)](https://travis-ci.org/jaijuneja/PyTLDR) [![PyPI version](https://badge.fury.io/py/pytldr.svg)](https://pypi.python.org/pypi/pytldr)
 
-A Python module to perform automatic text summarization of articles, files and web pages.
+A Python module to perform automatic summarization of articles, text files and web pages.
 
 ## License
 
@@ -45,7 +45,7 @@ python setup.py install
 
 ## Usage
 
-A more complex sample program using the PyTLDR module can be found at `https://github.com/jaijuneja/reddit-nlp/blob/master/example.py`. Here we outline a basic word counter application.
+A simple sample program using the PyTLDR module can be found at `https://github.com/jaijuneja/PyTLDR/blob/master/example.py`
 
 In its current form, this module contains three distinct implementations of automatic text summarization:
 
