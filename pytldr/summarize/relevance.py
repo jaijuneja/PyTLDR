@@ -9,15 +9,15 @@ class RelevanceSummarizer(BaseSummarizer):
         """
         Implements the method of summarization by relevance score, as described by Gong and Liu in the paper:
 
-        Y. Gong and X. Liu. Generic text summarization using relevance measure and latent semantic analysis.
+        Y. Gong and X. Liu (2001). Generic text summarization using relevance measure and latent semantic analysis.
         Proceedings of the 24th International Conference on Research in Information Retrieval (SIGIR ’01),
-        pp. 19–25, 2001.
+        pp. 19–25.
 
         This method computes and ranks the cosine similarity between each sentence vector and the overall
         document.
 
         :param text: a string of text to be summarized, path to a text file, or URL starting with http
-        :param length: the length of the output summary; either a number of sentences (5) or a percentage
+        :param length: the length of the output summary; either a number of sentences (e.g. 5) or a percentage
         of the original document (e.g. 0.5)
         :param binary_matrix: boolean value indicating whether the matrix of word counts should be binary
         (True by default)

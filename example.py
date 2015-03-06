@@ -69,7 +69,7 @@ if __name__ == "__main__":
     Euro zone member Cyprus was forced to close its banks for two weeks and introduce capital controls during a 2013 crisis. Such controls would need to be imposed when banks are closed. Greek banks are closed next Monday for a holiday.
 
     (Additional reporting by Yann Le Guernigou, Michael Nienaber, Andrew Callus, Jan Strupczewski, Alastair Macdonald, Adrian Croft, Foo Yun Chee, Robin Emmott, Tom Koerkemeier, Julia Fioretti and Francesca Landini; Writing by Jeremy Gaunt, Paul Taylor and Alastair Macdonald; Editing by Paul Taylor, Giles Elgood and Eric Walsh)
-    """.decode('utf-8')
+    """
 
     lsa_o = LsaOzsoy()
     lsa_s = LsaSteinberger()

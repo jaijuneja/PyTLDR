@@ -8,6 +8,16 @@ class TextRankSummarizer(BaseSummarizer):
 
     def summarize(self, text, length=5, weighting='frequency', norm=None):
         """
+        Implements the TextRank summarization algorithm, which follows closely to the PageRank algorithm for ranking
+        web pages.
+
+        :param text: a string of text to be summarized, path to a text file, or URL starting with http
+        :param length: the length of the output summary; either a number of sentences (e.g. 5) or a percentage
+        of the original document (e.g. 0.5)
+        :param weighting: 'frequency', 'binary' or 'tfidf' weighting of sentence terms ('frequency' by default)
+        :param norm: if 'l1' or 'l2', normalizes words by the length of their associated sentence to "down-weight"
+        the voting power of long sentences (None by default)
+        :return: list of sentences for the summary
         """
 
         text = self._parse_input(text)

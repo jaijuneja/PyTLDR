@@ -22,7 +22,7 @@ class BaseLsaSummarizer(BaseSummarizer):
     def _validate_num_topics(cls, topics, sentences):
         # Determine the number of "linearly independent" sentences
         # This gives us an estimate for the rank of the matrix for which we will compute SVD
-        sentences_set = {frozenset(sentence.split(' ')) for sentence in sentences}
+        sentences_set = set([frozenset(sentence.split(' ')) for sentence in sentences])
         est_matrix_rank = len(sentences_set)
 
         if est_matrix_rank <= 1:
@@ -50,18 +50,18 @@ class LsaSteinberger(BaseLsaSummarizer):
         """
         Implements the method of latent semantic analysis described by Steinberger and Jezek in the paper:
 
-        J. Steinberger and K. Jezek. Using latent semantic analysis in text summarization and summary evaluation.
-        Proc. ISIM ’04, 2004, pp. 93–100.
+        J. Steinberger and K. Jezek (2004). Using latent semantic analysis in text summarization and summary evaluation.
+        Proc. ISIM ’04, pp. 93–100.
 
         :param text: a string of text to be summarized, path to a text file, or URL starting with http
         :param topics: the number of topics/concepts covered in the input text (defines the degree of
         dimensionality reduction in the SVD step)
-        :param length: the length of the output summary; either a number of sentences (5) or a percentage
+        :param length: the length of the output summary; either a number of sentences (e.g. 5) or a percentage
         of the original document (e.g. 0.5)
         :param binary_matrix: boolean value indicating whether the matrix of word counts should be binary
         (True by default)
         :param topic_sigma_threshold: filters out topics/concepts with a singular value less than this
-        percentage of the largest singular value (must be between 0 and 1)
+        percentage of the largest singular value (must be between 0 and 1, 0.5 by default)
         :return: list of sentences for the summary
         """
 
@@ -119,7 +119,7 @@ class LsaOzsoy(BaseLsaSummarizer):
         :param binary_matrix: boolean value indicating whether the matrix of word counts should be binary
         (True by default)
         :param topic_sigma_threshold: filters out topics/concepts with a singular value less than this
-        percentage of the largest singular value (must be between 0 and 1)
+        percentage of the largest singular value (must be between 0 and 1, 0 by default)
         :return: list of sentences for the summary
         """
 

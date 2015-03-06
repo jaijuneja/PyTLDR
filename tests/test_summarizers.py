@@ -6,10 +6,11 @@ from pytldr.summarize.relevance import RelevanceSummarizer
 from pytldr.summarize.textrank import TextRankSummarizer
 
 
-class TestSummarizer(object):
+class TestSummarizer(unittest.TestCase):
     """
     Generic test class for all summarizers
     """
+    __test__ = False
     summarizer = None
     text =  """
             Lorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -60,7 +61,8 @@ class TestSummarizer(object):
             self.assertTrue(any(item.category == warning for item in warning_list))
 
 
-class TestLsaOzsoySummarizer(unittest.TestCase, TestSummarizer):
+class TestLsaOzsoySummarizer(TestSummarizer):
+    __test__ = True
 
     def setUp(self):
         self.summarizer = LsaOzsoy()
@@ -74,7 +76,8 @@ class TestLsaOzsoySummarizer(unittest.TestCase, TestSummarizer):
                          self.text, topics=topics, length=length)
 
 
-class TestLsaSteinbergerSummarizer(unittest.TestCase, TestSummarizer):
+class TestLsaSteinbergerSummarizer(TestSummarizer):
+    __test__ = True
 
     def setUp(self):
         self.summarizer = LsaSteinberger()
@@ -88,13 +91,15 @@ class TestLsaSteinbergerSummarizer(unittest.TestCase, TestSummarizer):
                          self.text, topics=topics, length=length)
 
 
-class TestRelevanceSummarizer(unittest.TestCase, TestSummarizer):
+class TestRelevanceSummarizer(TestSummarizer):
+    __test__ = True
 
     def setUp(self):
         self.summarizer = RelevanceSummarizer()
 
 
-class TestTextRankSummarizer(unittest.TestCase, TestSummarizer):
+class TestTextRankSummarizer(TestSummarizer):
+    __test__ = True
 
     def setUp(self):
         self.summarizer = TextRankSummarizer()

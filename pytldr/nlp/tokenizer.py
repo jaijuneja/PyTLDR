@@ -8,13 +8,21 @@ from preprocess import unicode_to_ascii
 
 class Tokenizer(object):
 
-    def __init__(self, language='english', stopwords=None):
-        self._stemmer = SnowballStemmer(language)
+    def __init__(self, language='english', stopwords=None, stemming=True):
+        if stemming:
+            self._stemmer = SnowballStemmer(language)
+        else:
+            self._stemmer = None
 
         if isinstance(stopwords, list):
             self._stopwords = stopwords
         elif isinstance(stopwords, (str, unicode)):
-            self._stopwords = self._load_stopwords(stopwords)
+            # stopwords argument is a path
+            try:
+                self._stopwords = self._load_stopwords(stopwords)
+            except IOError:
+                raise IOError('stopwords argument must be a path to a .txt file, a list of word strings '
+                              'or None (which loads the default list)')
         else:
             # Load built-in stopwords
             stopwords_dir = 'stopwords/{}.txt'.format(language.lower())
@@ -50,7 +58,10 @@ class Tokenizer(object):
             )
 
     def stem(self, word):
-        return unicode_to_ascii(self._stemmer.stem(word))
+        if self.stemmer:
+            return unicode_to_ascii(self._stemmer.stem(word))
+        else:
+            return word
 
     def stem_tokens(self, tokens):
         """Perform snowball (Porter2) stemming on a list of word tokens."""
@@ -88,9 +99,10 @@ class Tokenizer(object):
 
     def tokenize_sentences(self, text, word_threshold=5):
         punkt_params = PunktParameters()
-        punkt_params.abbrev_types = {
+        # Not using set literal to allow compatibility with Python 2.6
+        punkt_params.abbrev_types = set([
             'dr', 'vs', 'mr', 'mrs', 'ms', 'prof', 'mt', 'inc', 'i.e', 'e.g'
-        }
+        ])
         sentence_splitter = PunktSentenceTokenizer(punkt_params)
 
         # 1. TOKENIZE "UNPROCESSED" SENTENCES FOR DISPLAY
@@ -107,8 +119,8 @@ class Tokenizer(object):
         for ndx, sentence in enumerate(unprocessed_sentences):
             sentence = unicode_to_ascii(sentence)  # Sentence splitter returns unicode strings
             sentence = sentence.replace('? " ', '?" ').replace('! " ', '!" ').replace('. " ', '." ')
-            sentence = sentence[:-2] if sentence.endswith(' .') else sentence
             sentence = self._remove_whitespace(sentence)  # Remove excess whitespace
+            sentence = sentence[:-2] if (sentence.endswith(' .') or sentence.endswith(' . ')) else sentence
             unprocessed_sentences[ndx] = sentence
 
         # 2. PROCESS THE SENTENCES TO PERFORM STEMMING, STOPWORDS REMOVAL ETC. FOR MATRIX COMPUTATION
@@ -116,7 +128,7 @@ class Tokenizer(object):
 
         # Sentences should contain at least 'word_threshold' significant terms
         filter_sentences = [i for i in range(len(processed_sentences))
-                            if len(processed_sentences[i].split(' ')) > word_threshold]
+                            if len(processed_sentences[i].replace('.', '').split(' ')) > word_threshold]
 
         processed_sentences = [processed_sentences[i] for i in filter_sentences]
         unprocessed_sentences = [unprocessed_sentences[i] for i in filter_sentences]
