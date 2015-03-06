@@ -116,9 +116,9 @@ The more recent Ozsoy et al. implentation is called by default, but both classes
 ```python
 from pytldr.summarize.lsa import LsaSummarizer, LsaOzsoy, LsaSteinberger
 
-summarizer = LsaOzsoy('english')
-summarizer = LsaSteinberger('english')
-summarizer = LsaSummarizer('english')  # This is identical to the LsaOzsoy object
+summarizer = LsaOzsoy()
+summarizer = LsaSteinberger()
+summarizer = LsaSummarizer()  # This is identical to the LsaOzsoy object
 
 summary = summarizer.summarize(
     text, topics=4, length=5, binary_matrix=True, topic_sigma_threshold=0.5
@@ -138,7 +138,7 @@ This method computes and ranks the cosine similarity between each sentence vecto
 ```python
 from pytldr.summarize.relevance import RelevanceSummarizer
 
-summarizer = RelevanceSummarizer(tokenizer)
+summarizer = RelevanceSummarizer()
 summary = summarizer.summarize(text, length=5, binary_matrix=True):
 ```
 

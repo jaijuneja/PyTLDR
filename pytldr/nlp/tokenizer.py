@@ -25,7 +25,7 @@ class Tokenizer(object):
                               'or None (which loads the default list)')
         else:
             # Load built-in stopwords
-            stopwords_dir = 'stopwords/{}.txt'.format(language.lower())
+            stopwords_dir = 'stopwords/{0}.txt'.format(language.lower())
             application_root = os.path.dirname(__file__)
             stopwords_file = os.path.join(application_root, '..', stopwords_dir)
             self._stopwords = self._load_stopwords(stopwords_file)
