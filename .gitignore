@@ -3,6 +3,6 @@
 *.pyc
 build/
 dist/
-pytldr.egg-info/
+PyTLDR.egg-info/
 *.zip
 *.egg

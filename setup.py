@@ -6,7 +6,7 @@ from setuptools import setup
 import os
 
 PACKAGE_NAME = 'PyTLDR'
-VERSION = '0.1'
+VERSION = '0.1.1'
 
 
 def read(filename):
