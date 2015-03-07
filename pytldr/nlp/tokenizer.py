@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import re
 import os.path
 from nltk.stem import SnowballStemmer
 from nltk.tokenize.punkt import PunktSentenceTokenizer, PunktParameters
@@ -134,3 +135,7 @@ class Tokenizer(object):
         unprocessed_sentences = [unprocessed_sentences[i] for i in filter_sentences]
 
         return processed_sentences, unprocessed_sentences
+
+    @classmethod
+    def tokenize_paragraphs(cls, text):
+        return re.split('\s{4,}',text)
