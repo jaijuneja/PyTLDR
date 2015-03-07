@@ -59,6 +59,7 @@ class Tokenizer(object):
             )
 
     def stem(self, word):
+        """Perform stemming on an input word."""
         if self.stemmer:
             return unicode_to_ascii(self._stemmer.stem(word))
         else:
@@ -92,6 +93,7 @@ class Tokenizer(object):
 
     @staticmethod
     def _remove_whitespace(text):
+        """Remove excess whitespace from a given input string."""
         while True:
             old_text = text
             text = text.replace('  ', ' ')
@@ -99,6 +101,14 @@ class Tokenizer(object):
                 return text
 
     def tokenize_sentences(self, text, word_threshold=5):
+        """
+        Returns a list of sentences given an input string of text.
+
+        :param text: input string
+        :param word_threshold: number of significant words that a sentence must contain to be counted
+        (to count all sentences set equal to 1; 5 by default)
+        :return: list of sentences
+        """
         punkt_params = PunktParameters()
         # Not using set literal to allow compatibility with Python 2.6
         punkt_params.abbrev_types = set([
@@ -138,4 +148,8 @@ class Tokenizer(object):
 
     @classmethod
     def tokenize_paragraphs(cls, text):
-        return re.split('\s{4,}',text)
+        """Convert an input string into a list of paragraphs."""
+        paragraphs = re.split('\s{4,}',text)
+        # Remove empty strings from list
+        paragraphs = [p for p in paragraphs if p]
+        return paragraphs

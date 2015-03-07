@@ -34,6 +34,21 @@ class TestTokenizer(unittest.TestCase):
 
         self.assertEqual(expected, result)
 
+    def test_tokenize_paragraphs(self):
+        text = """
+            Here is a bunch of text.
+
+            Another paragraph.
+            Yet another paragraph.
+            """
+        expected = [
+            "Here is a bunch of text.",
+            "Another paragraph.",
+            "Yet another paragraph."
+        ]
+        result = self.tokenizer.tokenize_paragraphs(text)
+        self.assertEqual(expected, result)
+
     def test_stem(self):
         word = "stupidity"
         expected = "stupid"
