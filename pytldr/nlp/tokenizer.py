@@ -107,11 +107,15 @@ class Tokenizer(object):
         first_non_space = non_spaces.next()
         first_non_space = first_non_space.start()
 
-        for last_non_space in non_spaces:
-            pass
+        last_non_space = None
+        for item in non_spaces:
+            last_non_space = item
 
-        last_non_space = last_non_space.end()
-        return text[first_non_space:last_non_space]
+        if not last_non_space:
+            return text[first_non_space:]
+        else:
+            last_non_space = last_non_space.end()
+            return text[first_non_space:last_non_space]
 
     def tokenize_sentences(self, text, word_threshold=5):
         """
