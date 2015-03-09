@@ -93,12 +93,25 @@ class Tokenizer(object):
 
     @staticmethod
     def _remove_whitespace(text):
-        """Remove excess whitespace from a given input string."""
-        while True:
-            old_text = text
-            text = text.replace('  ', ' ')
-            if text == old_text:
-                return text
+        """Remove excess whitespace from the ends of a given input string."""
+        # while True:
+        #     old_text = text
+        #     text = text.replace('  ', ' ')
+        #     if text == old_text:
+        #         return text
+        non_spaces = re.finditer(r'[^ ]', text)
+
+        if not non_spaces:
+            return text
+
+        first_non_space = non_spaces.next()
+        first_non_space = first_non_space.start()
+
+        for last_non_space in non_spaces:
+            pass
+
+        last_non_space = last_non_space.end()
+        return text[first_non_space:last_non_space]
 
     def tokenize_sentences(self, text, word_threshold=5):
         """
@@ -149,7 +162,12 @@ class Tokenizer(object):
     @classmethod
     def tokenize_paragraphs(cls, text):
         """Convert an input string into a list of paragraphs."""
-        paragraphs = re.split('\s{4,}',text)
+        paragraphs = []
+        paragraphs_first_pass = text.split('\n')
+        for p in paragraphs_first_pass:
+            paragraphs_second_pass = re.split('\s{4,}', p)
+            paragraphs += paragraphs_second_pass
+
         # Remove empty strings from list
         paragraphs = [p for p in paragraphs if p]
         return paragraphs
