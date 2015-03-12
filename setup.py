@@ -6,7 +6,7 @@ from setuptools import setup
 import os
 
 PACKAGE_NAME = 'PyTLDR'
-VERSION = '0.1.3'
+VERSION = '0.1.4'
 
 
 def read(filename):
@@ -55,7 +55,7 @@ setup(
     ],
     install_requires=[
         'numpy>=1.8.0',
-        'nltk>=3.0.0',
+        'nltk>=2.0.5',
         'scipy>=0.13.2',
         'scikit-learn>=0.15.2',
         'goose-extractor>=1.0.25',

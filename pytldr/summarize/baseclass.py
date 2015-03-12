@@ -1,17 +1,19 @@
 # -*- coding: utf-8 -*-
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 from sklearn.preprocessing import normalize
-from ..nlp.preprocess import parse_input
-from ..nlp.tokenizer import Tokenizer
+from ..nlp import Tokenizer, parse_input
+from abc import ABCMeta, abstractmethod
 
 
 class BaseSummarizer(object):
+    __metaclass__ = ABCMeta
 
     def __init__(self, tokenizer=Tokenizer('english')):
         self._tokenizer = tokenizer
 
-    def summarize(self, text, num_sentences=5):
-        raise NotImplementedError('This method needs to be implemented in a child class')
+    @abstractmethod
+    def summarize(self, text, length=5):
+        pass
 
     @classmethod
     def _compute_matrix(cls, sentences, weighting='frequency', norm=None):

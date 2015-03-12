@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import unittest
-from pytldr.nlp.tokenizer import Tokenizer
+from pytldr.nlp import Tokenizer
 
 
 class TestTokenizer(unittest.TestCase):

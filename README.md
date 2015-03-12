@@ -60,7 +60,7 @@ Note that all three of the above implementations are extractive - that is, they 
 PyTLDR comes with a built-in sentence tokenizer that is used for summarization. The tokenizer performs stemming in several languages as well as stop-word removal. You may also specify your own list of stop-words.
 
 ```python
-from pytldr.nlp.tokenizer import Tokenizer
+from pytldr.nlp import Tokenizer
 
 tokenizer = Tokenizer(language='english', stopwords=None, stemming=True)
 # Note that if stopwords=None then the tokenizer loads stopwords from a bundled data-set
@@ -74,8 +74,8 @@ Note that the tokenizer is the only input required to initialize a summarizer ob
 Ranks sentences using the PageRank algorithm, where "votes" or "in-links" are represented by words shared between sentences.
 
 ```python
-from pytldr.summarize.textrank import TextRankSummarizer
-from pytldr.nlp.tokenizer import Tokenizer
+from pytldr.summarize import TextRankSummarizer
+from pytldr.nlp import Tokenizer
 
 tokenizer = Tokenizer('english')
 summarizer = TextRankSummarizer(tokenizer)
@@ -114,7 +114,7 @@ This module comes packaged with two distinct implementations of the LSA algorith
 The more recent Ozsoy et al. implentation is called by default, but both classes have the same interface.
 
 ```python
-from pytldr.summarize.lsa import LsaSummarizer, LsaOzsoy, LsaSteinberger
+from pytldr.summarize import LsaSummarizer, LsaOzsoy, LsaSteinberger
 
 summarizer = LsaOzsoy()
 summarizer = LsaSteinberger()
@@ -136,7 +136,7 @@ This method computes and ranks the cosine similarity between each sentence vecto
 * Y. Gong and X. Liu (2001). Generic text summarization using relevance measure and latent semantic analysis.
 
 ```python
-from pytldr.summarize.relevance import RelevanceSummarizer
+from pytldr.summarize import RelevanceSummarizer
 
 summarizer = RelevanceSummarizer()
 summary = summarizer.summarize(text, length=5, binary_matrix=True):

@@ -1,9 +1,7 @@
 import unittest
 import warnings
 from pytldr.summarize.baseclass import BaseSummarizer
-from pytldr.summarize.lsa import LsaOzsoy, LsaSteinberger
-from pytldr.summarize.relevance import RelevanceSummarizer
-from pytldr.summarize.textrank import TextRankSummarizer
+from pytldr.summarize import LsaOzsoy, LsaSteinberger, RelevanceSummarizer, TextRankSummarizer
 
 
 class TestSummarizer(unittest.TestCase):
@@ -107,6 +105,5 @@ class TestTextRankSummarizer(TestSummarizer):
 
 class TestBaseSummarizer(unittest.TestCase):
 
-    def test_summarize_notimplemented(self):
-        summarizer = BaseSummarizer()
-        self.assertRaises(NotImplementedError, summarizer.summarize,'')
+    def test_summarize_abstract(self):
+        self.assertRaises(TypeError, BaseSummarizer, '')

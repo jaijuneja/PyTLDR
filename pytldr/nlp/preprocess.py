@@ -14,7 +14,7 @@ def unicode_to_ascii(unicodestr):
 
 def parse_input(text):
     if isinstance(text, str) or isinstance(text, unicode):
-        if text.startswith('http://'):
+        if text.startswith(('http://', 'https://')):
             # Input is a link - need to extract the text from html
             urlparse = Goose()
             article = urlparse.extract(url=text)
