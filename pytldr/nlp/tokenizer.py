@@ -77,6 +77,11 @@ class Tokenizer(object):
         )
         return text.strip(chars_to_strip)
 
+    @staticmethod
+    def strip_all_punctuation(text):
+        """Strip all punctuation from an input string."""
+        return ''.join([char for char in text if char not in punctuation])
+
     def tokenize_words(self, text):
         """Tokenize an input string into a list of words (with punctuation removed)."""
         return [
