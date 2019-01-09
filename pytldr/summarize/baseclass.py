@@ -5,9 +5,7 @@ from ..nlp import Tokenizer, parse_input
 from abc import ABCMeta, abstractmethod
 
 
-class BaseSummarizer(object):
-    __metaclass__ = ABCMeta
-
+class BaseSummarizer(object, metaclass=ABCMeta):
     def __init__(self, tokenizer=Tokenizer('english')):
         self._tokenizer = tokenizer
 

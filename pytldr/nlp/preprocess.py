@@ -5,14 +5,14 @@ import unicodedata
 def unicode_to_ascii(unicodestr):
     if isinstance(unicodestr, str):
         return unicodestr
-    elif isinstance(unicodestr, unicode):
+    elif isinstance(unicodestr, str):
         return unicodedata.normalize('NFKD', unicodestr).encode('ascii', 'ignore')
     else:
         raise ValueError('Input text must be of type str or unicode.')
 
 
 def parse_input(text, extractor='newspaper'):
-    if isinstance(text, str) or isinstance(text, unicode):
+    if isinstance(text, str) or isinstance(text, str):
         if text.startswith(('http://', 'https://')):
             # Input is a link - need to extract the text from html
             if extractor.lower() == 'goose':

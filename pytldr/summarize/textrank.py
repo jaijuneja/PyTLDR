@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from __future__ import division
+
 import networkx
 from .baseclass import BaseSummarizer
 
@@ -40,7 +40,7 @@ class TextRankSummarizer(BaseSummarizer):
         scores = networkx.pagerank(similarity_graph)
 
         ranked_sentences = sorted(
-            ((score, ndx) for ndx, score in scores.items()), reverse=True
+            ((score, ndx) for ndx, score in list(scores.items())), reverse=True
         )
 
         top_sentences = [ranked_sentences[i][1] for i in range(length)]
