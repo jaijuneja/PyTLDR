@@ -54,13 +54,11 @@ setup(
         'Programming Language :: Python'
     ],
     install_requires=[
-        'numpy==1.8.0',
-        'nltk==2.0.5',
-        'scipy==0.13.2',
-        'scikit-learn==0.15.2',
-        'goose-extractor==1.0.25',
-        'newspaper==0.0.9.8',
-        'networkx==1.9.1'
+        'numpy==1.14.3',
+	    'nltk==3.4',
+	    'scipy==1.1.0',
+	    'scikit-learn==0.20.1'
+        'networkx==2.2'
     ],
     include_package_data=True,
     package_data={PACKAGE_NAME: ['stopwords/*.txt'],
