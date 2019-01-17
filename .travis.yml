@@ -9,6 +9,11 @@ before_install:
   - sudo apt-get install -qq gfortran libatlas-base-dev
   - sudo apt-get install -qq python-numpy
 install:
+  - pip3 install numpy
+  - pip3 install nltk
+  - pip3 install scipy
+  - pip3 install scikit-learn
+  - pip3 install networkx
   - python setup.py install
 script:
   - nosetests tests
