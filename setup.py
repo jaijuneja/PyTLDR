@@ -55,9 +55,9 @@ setup(
     ],
     install_requires=[
         'numpy==1.14.3',
-	    'nltk==3.4',
-	    'scipy==1.1.0',
-	    'scikit-learn==0.20.1'
+	'nltk==3.4',
+	'scipy==1.1.0',
+	'scikit-learn==0.20.1'
         'networkx==2.2'
     ],
     include_package_data=True,
