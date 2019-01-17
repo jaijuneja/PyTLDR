@@ -76,26 +76,26 @@ if __name__ == "__main__":
     relevance = RelevanceSummarizer()
     textrank = TextRankSummarizer()
 
-    print '\n\nLSA Ozsoy:\n'
+    print('\n\nLSA Ozsoy:\n')
     summary = lsa_o.summarize(txt, length=5)
 
     for sentence in summary:
-        print sentence
+        print(sentence)
 
-    print '\n\nLSA Steinberger:\n'
+    print('\n\nLSA Steinberger:\n')
     summary = lsa_s.summarize(txt, length=5)
 
     for sentence in summary:
-        print sentence
+        print(sentence)
 
-    print '\n\nRelevance:\n'
+    print('\n\nRelevance:\n')
     summary = relevance.summarize(txt, length=5)
 
     for sentence in summary:
-        print sentence
+        print(sentence)
 
-    print '\n\nTextRank:\n'
+    print('\n\nTextRank:\n')
     summary = textrank.summarize(txt, length=5)
 
     for sentence in summary:
-        print sentence
+        print(sentence)

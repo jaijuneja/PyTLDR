@@ -3,6 +3,7 @@
 [![Build Status](https://travis-ci.org/jaijuneja/PyTLDR.svg?branch=master)](https://travis-ci.org/jaijuneja/PyTLDR) [![PyPI version](https://badge.fury.io/py/pytldr.svg)](https://pypi.python.org/pypi/pytldr)
 
 A Python module to perform automatic summarization of articles, text files and web pages.
+This repository is fork of Jai Juneja's original repo PyTLDR
 
 ## License
 
@@ -18,17 +19,16 @@ You should have received a copy of the GNU General Public License along with thi
 
 ### Using pip or easy_install
 
-You can download the latest release version using `pip` or `easy_install`:
-
+~~You can download the latest release version using `pip` or `easy_install`:~~
+see issue [here](https://github.com/jaijuneja/PyTLDR/issues/1)
 ```
 pip install pytldr
 ```
-
-### Latest development version
-You can alternatively download the latest development version directly from GitHub:
+### Latest development version in python3
+You can alternatively download the latest development version directly from GitHub for python3:
 
 ```
-git clone https://github.com/jaijuneja/PyTLDR.git
+git clone https://github.com/vinodnimbalkar/PyTLDR.git
 ```
 
 Change into the root directory:

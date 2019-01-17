@@ -29,7 +29,7 @@ from distutils import log
 try:
     from urllib.request import urlopen
 except ImportError:
-    from urllib2 import urlopen
+    from urllib.request import urlopen
 
 try:
     from site import USER_SITE

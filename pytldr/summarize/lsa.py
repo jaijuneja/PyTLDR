@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import numpy as np
-from baseclass import BaseSummarizer
+from .baseclass import BaseSummarizer
 from scipy.sparse.linalg import svds
 from warnings import warn
 
