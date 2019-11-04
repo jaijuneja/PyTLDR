@@ -55,7 +55,7 @@ setup(
     ],
     install_requires=[
         'numpy==1.8.0',
-        'nltk==2.0.5',
+        'nltk==3.4.5',
         'scipy==0.13.2',
         'scikit-learn==0.15.2',
         'goose-extractor==1.0.25',
