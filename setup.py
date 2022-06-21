@@ -54,7 +54,7 @@ setup(
         'Programming Language :: Python'
     ],
     install_requires=[
-        'numpy==1.8.0',
+        'numpy==1.22.0',
         'nltk==2.0.5',
         'scipy==0.13.2',
         'scikit-learn==0.15.2',
